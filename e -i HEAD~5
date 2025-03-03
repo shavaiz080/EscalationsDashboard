@@ -1,0 +1,11 @@
+[33mcommit 9ba5ca338b38fc729c963528a9aae505f1ddb6d4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: shavaiz065 <sbutt@payactiv.com>
+Date:   Mon Mar 3 11:17:55 2025 -0800
+
+    Removed sensitive file from tracking
+
+[33mcommit ae19a8964081ec21ba3106e33246d236ae60c380[m
+Author: shavaiz065 <sbutt@payactiv.com>
+Date:   Mon Mar 3 11:06:31 2025 -0800
+
+    Initial Commit
