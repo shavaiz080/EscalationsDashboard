@@ -303,3 +303,4 @@ pdf_file = generate_pdf(figures)
 # Display a download button for the PDF
 import streamlit as st
 st.download_button("Download Escalations Dashboard PDF", pdf_file, file_name="Escalations_Dashboard.pdf", mime="application/pdf")
+
