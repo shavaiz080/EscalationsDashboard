@@ -30,7 +30,13 @@ import PIL.Image  # Yeh bhi zaroori hai PDF ka format theek karne ke liye
 
 # Google Sheets API setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_file("sheets-access.json", scopes=scope)
+import streamlit as st
+from google.oauth2.service_account import Credentials
+
+# Replace the local file loading with secrets from Streamlit
+service_account_info = st.secrets["gcp_service_account"]
+creds = Credentials.from_service_account_info(service_account_info, scopes=scope)
+
 client = gspread.authorize(creds)
 
 # Google Sheet details
