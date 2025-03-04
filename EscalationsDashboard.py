@@ -32,23 +32,31 @@ from google.oauth2.service_account import Credentials
 
 # Google Sheets API setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-
 service_account_info = st.secrets["gcp_service_account"]
 creds = Credentials.from_service_account_info(service_account_info, scopes=scope)
 client = gspread.authorize(creds)
 
 sheet = client.open_by_key("11FoqJicHt3BGpzAmBnLi1FQFN-oeTxR_WGKszARDcR4").worksheet("Sheet1")
+
 # Pehli row se headers le raha hai
-expected_headers = sheet.row_values(1)
+all_values = sheet.get_all_values()
+headers = all_values[0]  # Pehli row headers hai
+data = all_values[1:]  # Baaki rows data hai
 
-# Duplicate headers hata raha hai
-expected_headers = list(dict.fromkeys(expected_headers))
+# Duplicate header index nikal raha hai
+seen = set()
+clean_headers = []
+for header in headers:
+    if header not in seen:
+        clean_headers.append(header)
+        seen.add(header)
+    else:
+        clean_headers.append(f"{header}_Duplicate")
 
-# Ab unique headers ke saath data le raha hai
-data = sheet.get_all_records(expected_headers=expected_headers)
-st.write(data)
+# Dictionary bana raha hai
+final_data = [dict(zip(clean_headers, row)) for row in data]
 
-st.write(data)
+st.write(final_data)
 
 try:
     sheet = client.open_by_key("113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo").worksheet(Sheet1)
