@@ -24,45 +24,22 @@ import matplotlib.pyplot as plt  # Yeh line yahan add kar di hai 🔥
 from io import BytesIO
 from matplotlib.backends.backend_pdf import PdfPages
 import datetime
+from google.oauth2.service_account import Credentials
 import PIL.Image  # Yeh bhi zaroori hai PDF ka format theek karne ke liye
 
-import streamlit as st
-import gspread
-from google.oauth2.service_account import Credentials
 
 # Google Sheets API setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-service_account_info = st.secrets["gcp_service_account"]
-creds = Credentials.from_service_account_info(service_account_info, scopes=scope)
+creds = Credentials.from_service_account_file("secrets.json", scopes=scope)
 client = gspread.authorize(creds)
 
-try:
-    sheet = client.open_by_key("11FoqJicHt3BGpzAmBnLi1FQFN-oeTxR_WGKszARDcR4").worksheet("Sheet1")
-    all_values = sheet.get_all_values()
-    headers = all_values[0]  # First row as headers
-    data = all_values[1:]  # Remaining data rows
-
-    # Fix duplicate headers
-    seen = set()
-    final_headers = []
-    for header in headers:
-        if header in seen:
-            final_headers.append(f"{header}_duplicate")
-        else:
-            final_headers.append(header)
-            seen.add(header)
-
-    # Combine headers and data into dictionaries
-    final_data = [dict(zip(final_headers, row)) for row in data]
-    st.write(final_data)
-
-except Exception as e:
-    st.error(f"An error occurred: {e}")
+# Google Sheet details
+spreadsheet_id = "11FoqJicHt3BGpzAmBnLi1FQFN-oeTxR_WGKszARDcR4"  # Replace with your actual ID
+worksheet_name = "Sheet1"  # Update if different
 
 try:
-    sheet = client.open_by_key("113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo").worksheet(Sheet1)
-    data = worksheet.get_all_records()
-
+    sheet = client.open_by_key(spreadsheet_id).worksheet(worksheet_name)
+    data = sheet.get_all_values()
 
     # Convert to DataFrame
     df = pd.DataFrame(data)
