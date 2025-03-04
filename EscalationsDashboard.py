@@ -38,7 +38,7 @@ spreadsheet_id = "113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo"  # Replace with 
 worksheet_name = "Sheet1"  # Update if different
 
 try:
-    sheet = client.open_by_key(113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo).worksheet(Sheet1)
+    sheet = client.open_by_key("113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo").worksheet(Sheet1)
     data = worksheet.get_all_records()
 
 
