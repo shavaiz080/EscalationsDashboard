@@ -26,26 +26,19 @@ from matplotlib.backends.backend_pdf import PdfPages
 import datetime
 import PIL.Image  # Yeh bhi zaroori hai PDF ka format theek karne ke liye
 
-
+import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
-import streamlit as st
-# Google Sheets API setup
-scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-service_account_info = st.secrets["gcp_service_account"]
 
-# Service Account Authentication
+# Google Sheets API setup
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+
+service_account_info = st.secrets["gcp_service_account"]
 creds = Credentials.from_service_account_info(service_account_info, scopes=scope)
 client = gspread.authorize(creds)
 
-# Google Sheet Access
-spreadsheet_id = "113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo"  # Tumhara Google Sheets ka ID
-worksheet_name = "Sheet1"  # Sheet ka name
-
-# Data Fetch
-sheet = client.open_by_key(spreadsheet_id).worksheet(worksheet_name)
+sheet = client.open_by_key("11FoqJicHt3BGpzAmBnLi1FQFN-oeTxR_WGKszARDcR4").worksheet("Sheet1")
 data = sheet.get_all_records()
-st.title("Escalations Dashboard")
 st.write(data)
 
 try:
