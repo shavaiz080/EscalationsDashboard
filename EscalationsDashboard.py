@@ -27,15 +27,26 @@ import datetime
 import PIL.Image  # Yeh bhi zaroori hai PDF ka format theek karne ke liye
 
 
-
+import gspread
+from google.oauth2.service_account import Credentials
+import streamlit as st
 # Google Sheets API setup
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_file("secrets.json", scope)
+scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+service_account_info = st.secrets["gcp_service_account"]
+
+# Service Account Authentication
+creds = Credentials.from_service_account_info(service_account_info, scopes=scope)
 client = gspread.authorize(creds)
 
-# Google Sheet details
-spreadsheet_id = "113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo"  # Replace with your actual ID
-worksheet_name = "Sheet1"  # Update if different
+# Google Sheet Access
+spreadsheet_id = "113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo"  # Tumhara Google Sheets ka ID
+worksheet_name = "Sheet1"  # Sheet ka name
+
+# Data Fetch
+sheet = client.open_by_key(spreadsheet_id).worksheet(worksheet_name)
+data = sheet.get_all_records()
+st.title("Escalations Dashboard")
+st.write(data)
 
 try:
     sheet = client.open_by_key("113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo").worksheet(Sheet1)
