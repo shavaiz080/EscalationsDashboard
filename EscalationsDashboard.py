@@ -38,7 +38,16 @@ creds = Credentials.from_service_account_info(service_account_info, scopes=scope
 client = gspread.authorize(creds)
 
 sheet = client.open_by_key("11FoqJicHt3BGpzAmBnLi1FQFN-oeTxR_WGKszARDcR4").worksheet("Sheet1")
-data = sheet.get_all_records()
+# Pehli row se headers le raha hai
+expected_headers = sheet.row_values(1)
+
+# Duplicate headers hata raha hai
+expected_headers = list(dict.fromkeys(expected_headers))
+
+# Ab unique headers ke saath data le raha hai
+data = sheet.get_all_records(expected_headers=expected_headers)
+st.write(data)
+
 st.write(data)
 
 try:
