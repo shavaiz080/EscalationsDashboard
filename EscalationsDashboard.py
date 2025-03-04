@@ -24,22 +24,23 @@ import matplotlib.pyplot as plt  # Yeh line yahan add kar di hai 🔥
 from io import BytesIO
 from matplotlib.backends.backend_pdf import PdfPages
 import datetime
-from google.oauth2.service_account import Credentials
 import PIL.Image  # Yeh bhi zaroori hai PDF ka format theek karne ke liye
+
 
 
 # Google Sheets API setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_file("sheets-access.json", scopes=scope)
+creds = Credentials.from_service_account_file("secrets.json", scope)
 client = gspread.authorize(creds)
 
 # Google Sheet details
-spreadsheet_id = "11FoqJicHt3BGpzAmBnLi1FQFN-oeTxR_WGKszARDcR4"  # Replace with your actual ID
+spreadsheet_id = "113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo"  # Replace with your actual ID
 worksheet_name = "Sheet1"  # Update if different
 
 try:
-    sheet = client.open_by_key(spreadsheet_id).worksheet(worksheet_name)
-    data = sheet.get_all_values()
+    sheet = client.open_by_key(113aXkdk18yxVfTMXYWmQOhWMGaLvlxY5KzU6_LRIOYo).worksheet(Sheet1)
+    data = worksheet.get_all_records()
+
 
     # Convert to DataFrame
     df = pd.DataFrame(data)
